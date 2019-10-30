@@ -1,37 +1,26 @@
 #ifndef NODE_H
 #define NODE_H
 
-#include <map> 
-#include <iterator> 
-#include <vector>
-#include "Moves.h"
-
-using namespace std;
-
-enum Algorithms {UNIFORM_COST_SEARCH, A_STAR_MISPLACED_TILE, A_STAR_MANHATTAN_DISTANCE};
+#include "Enums.h"
+#include "State.h"
 
 class Node {
     public:
         Node();
-        Node(Moves lastMove, vector<vector<int>> &lastState, int locX, int locY, bool saveState);
-        void makeMove(vector<vector<int>> &lastState);
-        void copyState(vector<vector<int>> &lastState);
-        void updateAvailableMoves(bool canMoveBack);
+        Node(Moves move, Node &inNode);
+        State getState();
         void updateManhattanDistance();
-        void printState();
+        void updateMisplacedTiles();
         int getManhattanDistance();
+        int getMisplacedTiles();
         
         
 
 
     private:
-        int x;
-        int y;
+        State state;
         int manhattanDistance;
-        Moves last;
-        map<Moves, Node*> availableMoves;
-        bool save;
-        vector<vector<int>> *state;
+        int misplacedTiles;
 };
 
 

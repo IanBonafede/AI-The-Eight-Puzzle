@@ -1,13 +1,8 @@
 #ifndef MAIN_H
 #define MAIN_H
 
-#include <iostream> 
-#include <vector> // for 2D vector 
-#include "Node.h"
-#include "Moves.h"
+#include "Enums.h"
     
-using namespace std;
-
 
 
 
