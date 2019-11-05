@@ -1,35 +1,53 @@
 #ifndef STATE_H
 #define STATE_H
 
-#include "Enums.h"
+#include <vector>
+#include <cmath>
+#include <iostream>
 
+using namespace std;
 class State {
     public:
-        State();
-        State(Moves move, State &inState);
+        enum Moves {NO_MOVE, UP, DOWN, LEFT, RIGHT};
+        State(int move, vector<vector<int>> &inVec, int locX, int locY, vector<vector<int>> &inBase);
         void copyVec(vector<vector<int>> &inVec);
-        void makeMove(Moves move);
+        void makeMove();
         void moveUp();
         void moveDown();
         void moveLeft();
         void moveRight();
-        vector<int> getAvailableMoves(Moves last);
-        void calculateManhattanDistance(vector<vector<int>> &base);
-        void calculateMisplacedTiles(vector<vector<int>> &base);
+        void setAvailableMoves();
+        vector<int> getAvailableMoves();
+        void printAvailabeMoves();
+        void shuffle(int movesNum);
+        int calculateManhattanDistance();
+        int calculateMisplacedTiles();
         vector<vector<int>> getVec();
         int getX();
         int getY();
-        int getManhattanDistance();
-        int getMisplacedTiles();
-        void printState();
+        int getLast();
+        void printVec();
+        void printLoc();
+        void printManhattanDistance();
+        void printMisplacedTiles();
+        void printLast();
+
+
+        bool operator == (State& state) const
+        {   
+            return (vec == state.getVec());
+        }
 
 
     private:
         vector<vector<int>> vec;
+        vector<vector<int>> base;
+        vector<int> availableMoves;
+        int last;
         int x;
         int y;
-        int manhattanDistance;
-        int misplacedTiles;
 };
+
+
 
 #endif /* STATE_H */

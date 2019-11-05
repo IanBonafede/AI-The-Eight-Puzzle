@@ -1,16 +1,14 @@
 #include "State.h"
 
-
-State::State() {
-}
-
-State::State(Moves move, State &inState) {
-    x = inState.getX();
-    y = inState.getY();
-    manhattanDistance = 0;
-    misplacedTiles = 0;
-    vec = inState.getVec();
-    makeMove(move);
+State::State(int move, vector<vector<int>> &inVec, int locX, int locY, vector<vector<int>> &inBase) {
+    x = locX;
+    y = locY;
+    last = move;
+    base = inBase;
+    copyVec(inVec);
+    setAvailableMoves();
+    makeMove();
+    setAvailableMoves();
 }
 
 void State::copyVec(vector<vector<int>> &inVec) {
@@ -23,9 +21,9 @@ void State::copyVec(vector<vector<int>> &inVec) {
     vec = tempV;
 }
 
-void State::makeMove(Moves move) {
-    switch(move) {
-        case NONE:  break;
+void State::makeMove() {
+    switch(last) {
+        case NO_MOVE:  break;
         case UP:    moveUp(); break;
         case DOWN:  moveDown(); break;
         case LEFT:  moveLeft(); break;
@@ -43,7 +41,7 @@ void State::moveUp() {
 void State::moveDown() {
     vec[y][x] = vec[y+1][x];
     vec[y+1][x] = 0;
-    x = x + 1;
+    y = y + 1;
 }
 
 void State::moveLeft() {
@@ -55,12 +53,12 @@ void State::moveLeft() {
 void State::moveRight() {
     vec[y][x] = vec[y][x+1];
     vec[y][x+1] = 0;
-    y = x + 1;
+    x = x + 1;
 }
 
 
-vector<int> State::getAvailableMoves(Moves last) {
-    vector<int> availableMoves;
+void State::setAvailableMoves() {
+    availableMoves.clear();
 
     if(y != 0 && last != DOWN) { // up available
         availableMoves.push_back(UP); 
@@ -75,12 +73,42 @@ vector<int> State::getAvailableMoves(Moves last) {
         availableMoves.push_back(RIGHT); 
     }
 
+}
+
+vector<int> State::getAvailableMoves() {
     return availableMoves;
 }
 
-void State::calculateManhattanDistance(vector<vector<int>> &base) {
+void State::printAvailabeMoves() {
+    cout << "AVAILABLE MOVES:" << endl;
+    for(int i = 0; i < availableMoves.size(); i++) {
+        switch(availableMoves[i]) {
+            case NO_MOVE: cout << "NO_MOVE" << endl; break;
+            case UP: cout << "UP" << endl; break;
+            case DOWN: cout << "DOWN" << endl; break;
+            case LEFT: cout << "LEFT" << endl; break;
+            case RIGHT: cout << "RIGHT" << endl; break;
+        }
+    }
+    cout << endl;
+}
+
+
+void State::shuffle(int movesNum) {
+    for(int k = 0; k < movesNum; k++) {
+        srand (time(NULL));
+        last = availableMoves[rand() % availableMoves.size()];
+        makeMove();
+        setAvailableMoves();
+    }
+    last = NO_MOVE;
+    setAvailableMoves();
+
+}
+
+int State::calculateManhattanDistance() {
     int correctVal = 0;
-    manhattanDistance = 0;
+    int manhattanDistance = 0;
     int k, l = 0;
     bool found = false;
     for (int i = 0; i < vec.size(); i++) { 
@@ -106,11 +134,11 @@ void State::calculateManhattanDistance(vector<vector<int>> &base) {
                 
         }
     } 
-
+    return manhattanDistance;
 }
 
-void State::calculateMisplacedTiles(vector<vector<int>> &base) {
-    misplacedTiles = 0;
+int State::calculateMisplacedTiles() {
+    int misplacedTiles = 0;
     for (int i = 0; i < vec.size(); i++) { 
         for (int j = 0; j < vec[i].size(); j++) {
             if(!(i == vec.size() - 1 && j == vec[i].size() - 1) && vec[i][j] != base[i][j]) {
@@ -119,7 +147,7 @@ void State::calculateMisplacedTiles(vector<vector<int>> &base) {
                 
         }
     } 
-
+    return misplacedTiles;
 }
 
 vector<vector<int>> State::getVec() {
@@ -131,18 +159,37 @@ int State::getX() {
 int State::getY() {
     return y;
 }
-int State::getManhattanDistance() {
-    return manhattanDistance;
-}
-int State::getMisplacedTiles() {
-    return misplacedTiles;
+
+int State::getLast() {
+    return last;
 }
 
-void State::printState() {
-    // Displaying the 2D vector 
+void State::printVec() {
+    cout << "Tiles:\n";
     for (int i = 0; i < vec.size(); i++) { 
         for (int j = 0; j < vec[i].size(); j++) 
-            cout << vec[i][j] << "\t"; 
+            if(vec[i][j] == 0)
+                cout << "b" << "\t"; 
+            else
+                cout << vec[i][j] << "\t"; 
         cout << endl; 
     } 
+    cout << endl; 
 }
+
+void State::printLoc() {
+    cout << "Location:\n" << "X: " << x << "\tY: " << y << endl << endl;
+}
+
+void State::printLast() {
+    switch(last) {
+        case NO_MOVE: cout << "NO_MOVE"; break;
+        case UP: cout << "UP"; break;
+        case DOWN: cout << "DOWN"; break;
+        case LEFT: cout << "LEFT"; break;
+        case RIGHT: cout << "RIGHT"; break;
+    }
+}
+
+
+

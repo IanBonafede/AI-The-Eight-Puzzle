@@ -4,6 +4,12 @@
         "vector": "cpp",
         "deque": "cpp",
         "string": "cpp",
-        "iterator": "cpp"
+        "iterator": "cpp",
+        "unordered_map": "cpp",
+        "queue": "cpp",
+        "new": "cpp",
+        "memory": "cpp",
+        "istream": "cpp",
+        "ostream": "cpp"
     }
 }
