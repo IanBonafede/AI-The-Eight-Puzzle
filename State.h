@@ -4,6 +4,7 @@
 #include <vector>
 #include <cmath>
 #include <iostream>
+#include <time.h>
 
 using namespace std;
 class State {
