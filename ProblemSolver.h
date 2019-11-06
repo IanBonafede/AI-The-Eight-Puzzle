@@ -12,8 +12,8 @@ class ProblemSolver {
         ProblemSolver(Node &root, Node &inBase);
         bool genericSearch(int alg);
         bool didVisitNode(Node &node);
-        Node getBestNode();
         void printStats();
+        void startWith(Node &root);
 
 
 
@@ -21,7 +21,6 @@ class ProblemSolver {
         stack<Node> s;
         vector<Node> visitedNodes;
         Node *base;
-        Node *bestNode;
         int maxQueueSize;
         int nodesExpanded;
         clock_t t;

@@ -38,7 +38,7 @@ vector<string> options    { "\nPlease enter a number for a command.\n",
                             "\n",
                             "$ "};
 
-
+int solveRoot(int function);
 int printOptions();
 int exitProgram(); 
 int printBase();
@@ -52,7 +52,6 @@ int isRootEqualAnswer();
 int solve_UNIFORM_COST_SEARCH();
 int solve_A_STAR_MISPLACED_TILES();
 int solve_A_STAR_MANHATTAN_DISTANCE();
-void solve_Root(int function);
 
 
 

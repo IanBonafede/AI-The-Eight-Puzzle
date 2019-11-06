@@ -21,9 +21,9 @@ int main() {
             case 5:     ret = inputPuzzleSize(); break;
             case 6:     ret = inputPuzzleVals(); break;
             case 7:     ret = shuffleRoot(); break;
-            case 8:     ret = solve_UNIFORM_COST_SEARCH(); break;
-            case 9:    ret = solve_A_STAR_MISPLACED_TILES(); break;
-            case 10:    ret = solve_A_STAR_MANHATTAN_DISTANCE(); break;
+            case 8:     ret = solveRoot(UNIFORM_COST_SEARCH); break;
+            case 9:     ret = solveRoot(A_STAR_MISPLACED_TILES); break;
+            case 10:    ret = solveRoot(A_STAR_MANHATTAN_DISTANCE); break;
             default:    ret = exitProgram(); break;
         }
     }
@@ -163,21 +163,9 @@ int isRootEqualAnswer() {
     return 0;
 }
 
-bool solveRoot(int function) {
+int solveRoot(int function) {
     bool found = ps->genericSearch(function);
-}
-
-
-
-int solve_UNIFORM_COST_SEARCH() {
-    solveRoot(UNIFORM_COST_SEARCH);
+    ps->startWith(*root);
     return 0;
 }
-int solve_A_STAR_MISPLACED_TILES() {
-    solveRoot(A_STAR_MISPLACED_TILES);
-    return 0;
-}
-int solve_A_STAR_MANHATTAN_DISTANCE() {
-    solveRoot(A_STAR_MANHATTAN_DISTANCE);
-    return 0;
-}
+
